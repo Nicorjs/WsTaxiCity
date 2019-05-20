@@ -10,7 +10,8 @@
         }
         //********Funciones publicas de la clase************* */
         //inserta o midifica usuario en db y firebase ?
-        function insertar($usuario, $carga_saldo, $numero_tran){
+        function insertar($usuario, $carga_saldo, $numero_tran)
+        {
             if($this->existeusuario($usuario))
             {
                 //cambiar esto por una funcion update !!!
@@ -25,7 +26,8 @@
             }
         }
         //funcion decuento
-        function descuento($usuario,$descuento,$valor_viaje){
+        function descuento($usuario,$descuento,$valor_viaje)
+        {
             if($resultado = $this->con->query("SELECT saldo_real FROM `carga` WHERE id_conductor = '".$usuario."'"))
             {
                 $row = $resultado->fetch_array(MYSQLI_ASSOC);
@@ -64,11 +66,12 @@
             {
                 return false;
             }
-         }
+        }
         
         //****************Funciones privadas de la clase *************************** */
         //Funcion update en bases de datos
-        private function update($usuario, $carga_saldo, $numero_tran){
+        private function update($usuario, $carga_saldo, $numero_tran)
+        {
             $resultado = $this->con->query("SELECT saldo_real, saldo_contable FROM `carga` WHERE id_conductor = '".$usuario."'");
             $row = $resultado->fetch_array(MYSQLI_ASSOC);
             $saldonuevo = $row["saldo_real"] + $carga_saldo;
@@ -85,7 +88,8 @@
          }
         }
         //funcion agrega datos a bases de datos , si usuario mo existe
-        private function agregar($usuario, $carga_saldo, $numero_tran){
+        private function agregar($usuario, $carga_saldo, $numero_tran)
+        {
             //agregar otro funcion para firebase
             date_default_timezone_set("Chile/Continental");
             $fecha = date("Y-m-d H:i:s");
@@ -104,7 +108,8 @@
 
         }
         //comprueba la existencia de un usuario.
-        private function existeusuario($usuario){
+        private function existeusuario($usuario)
+        {
             $stmt = $this->con->prepare("SELECT id_conductor FROM `carga` WHERE id_conductor = ?");
             $stmt->bind_param("s", $usuario);
             $stmt->execute(); 
@@ -113,14 +118,17 @@
             return $stmt->num_rows > 0;
         }
         //comprueba la existencia de un usuario en la tabla decuento
-        private function existeusuario2($usuario){
+        private function existeusuario2($usuario)
+        {
             $stmt = $this->con->prepare("SELECT id_conductor FROM `descuento` WHERE id_conductor = ?");
             $stmt->bind_param("s", $usuario);
             $stmt->execute(); 
             $stmt->store_result();
             return $stmt->num_rows > 0;
         }
-        private function agregarfirebase($usuario, $carga_saldo,$numero_tran,$fecha){
+        //Funciones para agregar o moodificar datos en firebase
+        private function agregarfirebase($usuario, $carga_saldo,$numero_tran,$fecha)
+        {
             $NODE_PUT = "$usuario.json";
             $data = array(
                 "Saldo_real" => $carga_saldo,
