@@ -2,7 +2,7 @@
     class Dboperations
 {
         private $con;
-        private $FIREBASE = "https://testing-1d86a.firebaseio.com/";
+        private $FIREBASE = "___URL___FIREBASE____";
         function __construct(){
             //llamo al archivo, para poder crear la clase de conexión a la base de datos
             require_once dirname(__FILE__).'/DBConnect.php';
