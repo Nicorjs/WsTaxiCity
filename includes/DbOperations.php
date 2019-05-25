@@ -4,7 +4,9 @@
         private $con;
         private $FIREBASE = "https://testing-1d86a.firebaseio.com/";
         function __construct(){
+            //llamo al archivo, para poder crear la clase de conexión a la base de datos
             require_once dirname(__FILE__).'/DBConnect.php';
+            //creando el objeto
             $db = new Dbconnect();
             $this->con = $db->connect();
         }
